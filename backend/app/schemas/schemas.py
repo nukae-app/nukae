@@ -17,6 +17,25 @@ class TenantOut(BaseModel):
     class Config:
         orm_mode = True
 
+
+class CloudAccountCreate(BaseModel):
+    tenant_id: UUID
+    provider: str
+    account_identifier: str
+    name: Optional[str] = None
+
+
+class CloudAccountOut(BaseModel):
+    id: UUID
+    tenant_id: UUID
+    provider: str
+    account_identifier: str
+    name: Optional[str]
+    created_at: Optional[str]
+
+    class Config:
+        orm_mode = True
+
 class DashboardCreate(BaseModel):
     tenant_id: UUID
     name: str
@@ -38,6 +57,7 @@ class DashboardOut(BaseModel):
 class CostFilterParams(BaseModel):
     tenant_id: UUID
     provider: Optional[str] = None
+    account_id: Optional[UUID] = None
     start_date: Optional[date] = None
     end_date: Optional[date] = None
     group_by: Optional[str] = None
@@ -45,3 +65,26 @@ class CostFilterParams(BaseModel):
 class CostGroupResult(BaseModel):
     group: str
     total_cost: float
+
+
+class BudgetCreate(BaseModel):
+    tenant_id: UUID
+    name: str
+    period: str
+    start_date: date
+    end_date: date
+    amount: float
+
+
+class BudgetOut(BaseModel):
+    id: UUID
+    tenant_id: UUID
+    name: str
+    period: str
+    start_date: date
+    end_date: date
+    amount: float
+    created_at: Optional[str]
+
+    class Config:
+        orm_mode = True

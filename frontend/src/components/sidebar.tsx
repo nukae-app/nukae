@@ -22,7 +22,7 @@ export const Sidebar = ({ onNavigation, activeView }: SidebarProps) => {
     <div className="w-80 bg-[#0a1b39] text-white flex flex-col">
       <div className="p-6 flex items-center gap-3">
         <Icon icon="lucide:cube" className="text-blue-400 text-2xl" />
-        <span className="text-xl font-semibold">Acme Inc</span>
+        <span className="text-xl font-semibold">Nukae Cloud</span>
       </div>
       <nav className="flex-1 px-3">
         <ul className="space-y-1">
