@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: nukae-db
+    environment:
+      POSTGRES_USER: nukae
+      POSTGRES_PASSWORD: secret123
+      POSTGRES_DB: nukae_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+    container_name: nukae-backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://nukae:secret123@db:5432/nukae_db
+    ports:
+      - "8000:8000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ./backend:/code
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: nukae-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  pgdata:

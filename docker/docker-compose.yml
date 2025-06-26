@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  backend:
+    build: ../backend
+    container_name: nukae-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend:/app
+    env_file:
+      - ../.env
+    depends_on:
+      - db
+
+  frontend:
+    build: ../frontend
+    container_name: nukae-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres:15
+    container_name: nukae-db
+    environment:
+      POSTGRES_USER: nukae
+      POSTGRES_PASSWORD: secret123
+      POSTGRES_DB: nukae_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
+ 
