@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody, Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { CostChart } from "./cost-chart";
+// import { CostChart } from "./cost-chart";
 import { RecommendationCard } from "./recommendation-card";
 import { Spinner } from "@heroui/react";
 
