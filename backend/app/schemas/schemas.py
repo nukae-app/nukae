@@ -88,3 +88,68 @@ class BudgetOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class FolderCreate(BaseModel):
+    tenant_id: UUID
+    name: str
+
+
+class FolderOut(BaseModel):
+    id: UUID
+    tenant_id: UUID
+    name: str
+    created_at: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+
+class SaasLicenseCreate(BaseModel):
+    tenant_id: UUID
+    name: str
+    provider: str
+    cost: Optional[float] = 0
+    billing_cycle: Optional[str] = None
+    users: Optional[int] = 0
+    renewal_date: Optional[date] = None
+    status: Optional[str] = None
+    category: Optional[str] = None
+
+
+class SaasLicenseOut(BaseModel):
+    id: UUID
+    tenant_id: UUID
+    name: str
+    provider: str
+    cost: Optional[float]
+    billing_cycle: Optional[str]
+    users: Optional[int]
+    renewal_date: Optional[date]
+    status: Optional[str]
+    category: Optional[str]
+    created_at: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+
+class ChartCreate(BaseModel):
+    tenant_id: UUID
+    name: str
+    chart_type: str
+    fields: List[str]
+    folder_id: Optional[UUID] = None
+
+
+class ChartOut(BaseModel):
+    id: UUID
+    tenant_id: UUID
+    name: str
+    chart_type: str
+    fields: List[str]
+    folder_id: Optional[UUID]
+    created_at: Optional[str]
+
+    class Config:
+        orm_mode = True

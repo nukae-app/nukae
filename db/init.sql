@@ -230,4 +230,34 @@ CREATE INDEX idx_k8s_usage_date ON kubernetes_usage(usage_date);
 CREATE INDEX idx_license_dates ON software_licenses(start_date, end_date);
 CREATE INDEX idx_budget_dates ON budgets(start_date, end_date);
 
+-- SaaS licenses
+CREATE TABLE saas_licenses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    cost NUMERIC,
+    billing_cycle TEXT,
+    users NUMERIC,
+    renewal_date DATE,
+    status TEXT,
+    category TEXT,
+    created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE INDEX idx_saas_renewal ON saas_licenses(renewal_date);
+
+-- Charts library
+CREATE TABLE charts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    chart_type TEXT NOT NULL,
+    fields JSONB NOT NULL,
+    folder_id UUID REFERENCES dash_folders(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE INDEX idx_charts_tenant ON charts(tenant_id);
+
 -- End of schema

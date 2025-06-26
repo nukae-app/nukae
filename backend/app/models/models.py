@@ -191,3 +191,37 @@ class BudgetAlert(Base):
     threshold_percent = Column(Numeric, nullable=False)
     alert_type = Column(String, nullable=False)
     created_at = Column(DateTime, default=func.now())
+
+
+class DashFolder(Base):
+    __tablename__ = "dash_folders"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.id", ondelete="CASCADE"))
+    name = Column(String, nullable=False)
+    created_at = Column(DateTime, default=func.now())
+
+
+class Chart(Base):
+    __tablename__ = "charts"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.id", ondelete="CASCADE"))
+    name = Column(String, nullable=False)
+    chart_type = Column(String, nullable=False)
+    fields = Column(JSON, nullable=False)
+    folder_id = Column(UUID(as_uuid=True), ForeignKey("dash_folders.id", ondelete="SET NULL"))
+    created_at = Column(DateTime, default=func.now())
+
+
+class SaasLicense(Base):
+    __tablename__ = "saas_licenses"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.id", ondelete="CASCADE"))
+    name = Column(String, nullable=False)
+    provider = Column(String, nullable=False)
+    cost = Column(Numeric)
+    billing_cycle = Column(String)
+    users = Column(Numeric)
+    renewal_date = Column(Date)
+    status = Column(String)
+    category = Column(String)
+    created_at = Column(DateTime, default=func.now())
